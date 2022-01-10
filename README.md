@@ -65,9 +65,9 @@ Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/
 
 Open a terminal and run the following:
 `$ npm install`
-> You may need to include `npx` at the start of these commands
 `$ knex migrate:latest` 
 `$ knex seed:run`
+> You may need to include `npx` at the start of these commands
 
 Before starting up the server, define the number of concurrent tasks you plan to run:
 
