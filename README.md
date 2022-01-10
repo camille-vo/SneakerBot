@@ -64,9 +64,9 @@ When starting a task, you can optionally specify the card you want to use via it
 Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster).
 
 Open a terminal and run the following:
-`$ npm install`
-`$ knex migrate:latest` 
-`$ knex seed:run`
+1. `$ npm install`
+2. `$ knex migrate:latest` 
+3. `$ knex seed:run`
 > You may need to include `npx` at the start of these commands
 
 Before starting up the server, define the number of concurrent tasks you plan to run:
