@@ -63,7 +63,7 @@ When starting a task, you can optionally specify the card you want to use via it
 
 Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster).
 
-Open a terminal and run the following:
+Open a terminal (you can use PowerShell on Windows), cd to project folder, and run the following:
 1. `$ npm install`
 2. `$ knex migrate:latest` 
 3. `$ knex seed:run`
