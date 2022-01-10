@@ -96,32 +96,6 @@ When you're ready, start the server with:
 
 `$ npm start`
 
-## Optional: Using Docker / Docker Compose
-
-This may be particularly useful for Linux users who have reported issues with Puppeteer and Chromium.
-
-You will need to have [Docker Compose](https://docs.docker.com/compose/install/) and/or [Docker](https://docs.docker.com/get-docker/) installed to use this.
-
-You will also need to make a copy of the `.env.example` file, replacing `example` with the name of your `NODE_ENV` e.g. `docker`.
-
-A Docker image is available for the server code [here](https://hub.docker.com/repository/docker/samc621/sneakerbot). You can also build it yourself by running the following in the root directory:
-
-`$ docker build -t sneakerbot .`
-
-Then run it and specify the env file with:
-
-`docker run -p 5900:5900 -p 8000:8000 --env NODE_ENV=docker --env-file .env.docker sneakerbot` (replace `8000` with whatever `PORT` you specified in `.env.docker`)
-
-This Docker image is built from `node:12` and uses [xvfb](https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml) with [x11vnc](https://github.com/LibVNC/x11vnc) to provide access to a GUI.
-
-You can use [vncviewer](https://www.realvnc.com/en/connect/download/viewer/) to connect to the VNC server running in the container.
-
-You may also opt to run Postgres via Docker, in which case you can make use of the `docker-compose.yml` file. Simply run the following in the root directory:
-
-`$ docker-compose build`
-
-`$ docker-compose up`
-
 ## API
 
 This bot exposes a Node/Express API server for managing addresses, proxies, and tasks. I would eventually like to see a UI, which integrates these APIs, built.
