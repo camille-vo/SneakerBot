@@ -14,6 +14,8 @@ This bot was made by developers, for developers. It is not a commercial product,
 
 The developers of this software should not be held liable for any lost opportunities resulting from its usage.
 
+I edited the README to make it easier to follow for first time setup
+
 ## Prerequisites
 
 Install the following on your machine:
@@ -26,7 +28,18 @@ View my [documentation](https://docs.google.com/document/d/1D6LaYqhWnn30lggI1huy
 
 ## Configure environment variables
 
-Make a copy of the `.env.example` file, replacing `example` with the name of your `NODE_ENV` e.g. `.env.local` or `.env.development`.
+Make a copy of the `.env.example` file, replacing `example` with `local`
+
+### Populate the .env file
+
+1. `PORT` defaults to 8080. This can be left blank.
+2. `DB_USERNAME` and `DB_PASSWORD` is the username/password combo for the Postgres user you created (see documentation above for assistance).
+3. `DB_NAME` is the name of the Postgres database you created.
+4. `DB_PORT` and `DB_HOST` are the Postgres defaults, `5432` and `localhost`, respectively.
+5. `EMAIL_HOST` and `EMAIL_PORT` are the SMTP details for your email provider e.g. `smtp.gmail.com` and `587`, respectively, for Gmail.
+6. `EMAIL_USERNAME` and `EMAIL_PASSWORD` are your actual email credentials. We use the SMTP server to send email notifications about things like checkout errors or completions.
+7. `CARD_NUMBER`, `NAME_ON_CARD`, `EXPIRATION_MONTH`, `EXPIRATION_YEAR`, and `SECURITY_CODE` are your actual credit/debit card details.
+8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not. 
 
 When you're ready, declare the environment name with:
 
@@ -37,17 +50,6 @@ When you're ready, declare the environment name with:
 ### Windows
 
 `$ set NODE_ENV=local`
-
-### How to populate the .env file
-
-1. `PORT` is the port that the Node/Express API server will run on, _defaults to 8080_. You can use any TCP/UDP port (0-65535) that is unused by another service e.g. Postgres on 5432.
-2. `DB_USERNAME` and `DB_PASSWORD` is the username/password combo for the Postgres user you created (see documentation above for assistance).
-3. `DB_NAME` is the name of the Postgres database you created.
-4. `DB_PORT` and `DB_HOST` are the Postgres defaults, `5432` and `localhost`, respectively.
-5. `EMAIL_HOST` and `EMAIL_PORT` are the SMTP details for your email provider e.g. `smtp.gmail.com` and `587`, respectively, for Gmail.
-6. `EMAIL_USERNAME` and `EMAIL_PASSWORD` are your actual email credentials. We use the SMTP server to send email notifications about things like checkout errors or completions.
-7. `CARD_NUMBER`, `NAME_ON_CARD`, `EXPIRATION_MONTH`, `EXPIRATION_YEAR`, and `SECURITY_CODE` are your actual credit/debit card details.
-8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not. 
 
 ## Optional: Configure credit cards
 
@@ -61,31 +63,24 @@ When starting a task, you can optionally specify the card you want to use via it
 
 ## Start the server
 
-Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster).
-
 Open a terminal (you can use PowerShell on Windows), cd to project folder, and run the following:
 1. `$ npm install`
-2. `$ knex migrate:latest` 
-3. `$ knex seed:run`
-> You may need to include `npx` at the start of these commands
+2. `$ npx knex migrate:latest` 
+3. `$ npx knex seed:run`
+4. `$ export PARALLEL_TASKS=5`
+5.  `$ npm start`
 
-Before starting up the server, define the number of concurrent tasks you plan to run:
+### Defining number of tasks
 
-`$ export PARALLEL_TASKS=5`
+Running `$ export PARALLEL_TASKS=5` sets the number of concurrent tasks.
 
 If you do not define this variable, it will default to `1`.
 
-You can of course run more tasks, but they will be queued to run in a first-in, first-out (FIFO) manner.
+You run more tasks, but there are limitations.
 
 Keep in mind that tasks that do not result in `checkoutComplete` will remain idle (not terminate) so that you can open the browser and view the error(s).
 
 If a task encounters a captcha that must be manually solved, it will also remain idle and await completion.
-
-Each task uses its own browser, so it's also important to keep in mind the CPU constraints of your machine.
-
-When you're ready, start the server with:
-
-`$ npm start`
 
 ## API
 
