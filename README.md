@@ -19,11 +19,10 @@ The developers of this software should not be held liable for any lost opportuni
 Install the following on your machine:
 
 1. [Node.js](https://nodejs.org/en/download/) (comes with npm)
-2. [PostgreSQL](https://www.postgresql.org/download/)
 
 ## Set up PostgreSQL
 
-View the [documentation](https://www.postgresql.org/docs/9.0/sql-createdatabase.html) for creating a user and database.
+View my [documentation](https://docs.google.com/document/d/1D6LaYqhWnn30lggI1huyHPBZlVI4lnwdBUHwKMJSm4M/edit?usp=sharing) for setting up PostgreSql
 
 ## Configure environment variables
 
@@ -48,7 +47,7 @@ When you're ready, declare the environment name with:
 5. `EMAIL_HOST` and `EMAIL_PORT` are the SMTP details for your email provider e.g. `smtp.gmail.com` and `587`, respectively, for Gmail.
 6. `EMAIL_USERNAME` and `EMAIL_PASSWORD` are your actual email credentials. We use the SMTP server to send email notifications about things like checkout errors or completions.
 7. `CARD_NUMBER`, `NAME_ON_CARD`, `EXPIRATION_MONTH`, `EXPIRATION_YEAR`, and `SECURITY_CODE` are your actual credit/debit card details.
-8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not.
+8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not. 
 
 ## Optional: Configure credit cards
 
@@ -60,23 +59,15 @@ If you prefer not to use this method, you can simply leave this JSON file as-is.
 
 When starting a task, you can optionally specify the card you want to use via its `friendlyName`, otherwise the card from the `.env` file will be used.
 
-## Install the dependencies
-
-`$ npm install`
-
-## Run the DB migrations
-
-> You may need to include `npx` at the start of the commands
-
-`$ knex migrate:latest`
-
-## Run the DB seeders
-
-`$ knex seed:run`
-
 ## Start the server
 
 Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster).
+
+Open a terminal and run the following:
+`$ npm install`
+> You may need to include `npx` at the start of these commands
+`$ knex migrate:latest` 
+`$ knex seed:run`
 
 Before starting up the server, define the number of concurrent tasks you plan to run:
 
