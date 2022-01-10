@@ -14,17 +14,13 @@ This bot was made by developers, for developers. It is not a commercial product,
 
 The developers of this software should not be held liable for any lost opportunities resulting from its usage.
 
-I edited the README to make it easier to follow for first time setup
+I edited the README to make it easier to follow for first time setup. For full documentation, see (https://github.com/samc621/SneakerBot)
 
-## Prerequisites
+## Setup
 
-Install the following on your machine:
-
-1. [Node.js](https://nodejs.org/en/download/) (comes with npm)
-
-## Set up PostgreSQL
-
-View my [documentation](https://docs.google.com/document/d/1D6LaYqhWnn30lggI1huyHPBZlVI4lnwdBUHwKMJSm4M/edit?usp=sharing) for setting up PostgreSql
+1. On GitHub, click 'Code'-> Download Zip. Extract the zip file
+2. Install [Node.js](https://nodejs.org/en/download/)
+3. Install PostgreSql. View my [documentation](https://docs.google.com/document/d/1D6LaYqhWnn30lggI1huyHPBZlVI4lnwdBUHwKMJSm4M/edit?usp=sharing) for setting up a user and DB
 
 ## Configure environment variables
 
@@ -41,15 +37,7 @@ Make a copy of the `.env.example` file, replacing `example` with `local`
 7. `CARD_NUMBER`, `NAME_ON_CARD`, `EXPIRATION_MONTH`, `EXPIRATION_YEAR`, and `SECURITY_CODE` are your actual credit/debit card details.
 8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not. 
 
-When you're ready, declare the environment name with:
-
-### Linux/Mac
-
-`$ export NODE_ENV=local`
-
-### Windows
-
-`$ set NODE_ENV=local`
+Save file when you're done.
 
 ## Optional: Configure credit cards
 
@@ -64,13 +52,16 @@ When starting a task, you can optionally specify the card you want to use via it
 ## Start the server
 
 Open a terminal (you can use PowerShell on Windows), cd to project folder, and run the following:
-1. `$ npm install`
-2. `$ npx knex migrate:latest` 
-3. `$ npx knex seed:run`
-4. `$ export PARALLEL_TASKS=5`
-5.  `$ npm start`
+1. `$ export NODE_ENV=local` (Linux/Mac) or `$ set NODE_ENV=local` (Windows)
+2. `$ npm install`
+3. `$ npx knex migrate:latest` 
+4. `$ npx knex seed:run`
+5. `$ export PARALLEL_TASKS=5`
+6. `$ npm start`
 
-### Defining number of tasks
+Verify the server is running correctly by going to http://localhost:8080/v1/ in your browser.
+
+### Defining the number of tasks
 
 Running `$ export PARALLEL_TASKS=5` sets the number of concurrent tasks.
 
@@ -139,6 +130,7 @@ You must sign up for and fund a 2Captcha account, and then add your `API_KEY_2CA
 For manually-solving captchas, you will be given a 5-minute timeout after the email notification to check the browser and solve the captcha.
 
 ## Motivation
+(From original creator)
 
 As a teenager, I operated sneakerbots.us, where I sold sneakerbots like this in addition to early links and ATC services.
 
