@@ -14,41 +14,30 @@ This bot was made by developers, for developers. It is not a commercial product,
 
 The developers of this software should not be held liable for any lost opportunities resulting from its usage.
 
-## Prerequisites
+I edited the README to make it easier to follow for first time setup. For full documentation, see (https://github.com/samc621/SneakerBot)
 
-Install the following on your machine:
+## Setup
 
-1. [Node.js](https://nodejs.org/en/download/) (comes with npm)
-2. [PostgreSQL](https://www.postgresql.org/download/)
-
-## Set up PostgreSQL
-
-View the [documentation](https://www.postgresql.org/docs/9.0/sql-createdatabase.html) for creating a user and database.
+1. On GitHub, click 'Code'-> Download Zip. Extract the zip file
+2. Install [Node.js](https://nodejs.org/en/download/)
+3. Install PostgreSql. View my [documentation](https://docs.google.com/document/d/1D6LaYqhWnn30lggI1huyHPBZlVI4lnwdBUHwKMJSm4M/edit?usp=sharing) for setting up a user and DB
 
 ## Configure environment variables
 
-Make a copy of the `.env.example` file, replacing `example` with the name of your `NODE_ENV` e.g. `.env.local` or `.env.development`.
+Make a copy of the `.env.example` file, replacing `example` with `local`
 
-When you're ready, declare the environment name with:
+### Populate the .env file
 
-### Linux/Mac
-
-`$ export NODE_ENV=local`
-
-### Windows
-
-`$ set NODE_ENV=local`
-
-### How to populate the .env file
-
-1. `PORT` is the port that the Node/Express API server will run on, _defaults to 8080_. You can use any TCP/UDP port (0-65535) that is unused by another service e.g. Postgres on 5432.
+1. `PORT` defaults to 8080. This can be left blank.
 2. `DB_USERNAME` and `DB_PASSWORD` is the username/password combo for the Postgres user you created (see documentation above for assistance).
 3. `DB_NAME` is the name of the Postgres database you created.
 4. `DB_PORT` and `DB_HOST` are the Postgres defaults, `5432` and `localhost`, respectively.
 5. `EMAIL_HOST` and `EMAIL_PORT` are the SMTP details for your email provider e.g. `smtp.gmail.com` and `587`, respectively, for Gmail.
 6. `EMAIL_USERNAME` and `EMAIL_PASSWORD` are your actual email credentials. We use the SMTP server to send email notifications about things like checkout errors or completions.
 7. `CARD_NUMBER`, `NAME_ON_CARD`, `EXPIRATION_MONTH`, `EXPIRATION_YEAR`, and `SECURITY_CODE` are your actual credit/debit card details.
-8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not.
+8. `API_KEY_2CAPTCHA` is your API key provided by `2Captcha` if you so desire to use their service. This can be left blank if not. 
+
+Save file when you're done.
 
 ## Optional: Configure credit cards
 
@@ -60,67 +49,29 @@ If you prefer not to use this method, you can simply leave this JSON file as-is.
 
 When starting a task, you can optionally specify the card you want to use via its `friendlyName`, otherwise the card from the `.env` file will be used.
 
-## Install the dependencies
-
-`$ npm install`
-
-## Run the DB migrations
-
-> You may need to include `npx` at the start of the commands
-
-`$ knex migrate:latest`
-
-## Run the DB seeders
-
-`$ knex seed:run`
-
 ## Start the server
 
-Tasks run parallelly using [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster).
+Open a terminal (you can use PowerShell on Windows), cd to project folder, and run the following:
+1. `$ export NODE_ENV=local` (Linux/Mac) or `$ set NODE_ENV=local` (Windows)
+2. `$ npm install`
+3. `$ npx knex migrate:latest` 
+4. `$ npx knex seed:run`
+5. `$ export PARALLEL_TASKS=5`
+6. `$ npm start`
 
-Before starting up the server, define the number of concurrent tasks you plan to run:
+Verify the server is running correctly by going to http://localhost:8080/v1/ in your browser.
 
-`$ export PARALLEL_TASKS=5`
+### Defining the number of tasks
+
+Running `$ export PARALLEL_TASKS=5` sets the number of concurrent tasks.
 
 If you do not define this variable, it will default to `1`.
 
-You can of course run more tasks, but they will be queued to run in a first-in, first-out (FIFO) manner.
+You run more tasks, but there are limitations.
 
 Keep in mind that tasks that do not result in `checkoutComplete` will remain idle (not terminate) so that you can open the browser and view the error(s).
 
 If a task encounters a captcha that must be manually solved, it will also remain idle and await completion.
-
-Each task uses its own browser, so it's also important to keep in mind the CPU constraints of your machine.
-
-When you're ready, start the server with:
-
-`$ npm start`
-
-## Optional: Using Docker / Docker Compose
-
-This may be particularly useful for Linux users who have reported issues with Puppeteer and Chromium.
-
-You will need to have [Docker Compose](https://docs.docker.com/compose/install/) and/or [Docker](https://docs.docker.com/get-docker/) installed to use this.
-
-You will also need to make a copy of the `.env.example` file, replacing `example` with the name of your `NODE_ENV` e.g. `docker`.
-
-A Docker image is available for the server code [here](https://hub.docker.com/repository/docker/samc621/sneakerbot). You can also build it yourself by running the following in the root directory:
-
-`$ docker build -t sneakerbot .`
-
-Then run it and specify the env file with:
-
-`docker run -p 5900:5900 -p 8000:8000 --env NODE_ENV=docker --env-file .env.docker sneakerbot` (replace `8000` with whatever `PORT` you specified in `.env.docker`)
-
-This Docker image is built from `node:12` and uses [xvfb](https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml) with [x11vnc](https://github.com/LibVNC/x11vnc) to provide access to a GUI.
-
-You can use [vncviewer](https://www.realvnc.com/en/connect/download/viewer/) to connect to the VNC server running in the container.
-
-You may also opt to run Postgres via Docker, in which case you can make use of the `docker-compose.yml` file. Simply run the following in the root directory:
-
-`$ docker-compose build`
-
-`$ docker-compose up`
 
 ## API
 
@@ -179,6 +130,7 @@ You must sign up for and fund a 2Captcha account, and then add your `API_KEY_2CA
 For manually-solving captchas, you will be given a 5-minute timeout after the email notification to check the browser and solve the captcha.
 
 ## Motivation
+(From original creator)
 
 As a teenager, I operated sneakerbots.us, where I sold sneakerbots like this in addition to early links and ATC services.
 
